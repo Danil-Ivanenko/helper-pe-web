@@ -1,0 +1,92 @@
+/* .adminRefCardsContainer
+{
+    display : grid; 
+    grid-template-columns: repeat(3, 1fr);
+    gap :15px  
+}
+
+.input-wrapper {
+  position: relative; 
+
+
+}
+.filterInput
+{
+    width: 100%;
+  font-size: 1rem;
+  padding :7px;
+  background-color:  #f0f0f0;
+}
+.input-wrapper label {
+  position: absolute;
+  top: -8px;         
+  left: 3px;        
+  background-color: #f0f0f0; 
+padding: 0 5px;      
+  font-size: 0.8rem;
+  color: #555;         
+} */
+.filterBtn, .facultyBtn {
+  padding: 10px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size:0.9rem;
+    width: 100%;
+    margin-top:  5px;
+}
+.facultyBtn{
+  background-color: #46B34A;
+}
+/* .userCard p
+{
+  margin: 0px;
+}
+
+.letterBtn {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  padding: 7px;
+}
+.selectedLetter
+{
+  color: #007bff;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width:900px) {
+    .adminRefCardsContainer
+    {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width:600px) {
+    .adminRefCardsContainer
+    {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

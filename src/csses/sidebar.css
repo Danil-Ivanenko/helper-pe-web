@@ -1,0 +1,153 @@
+.sidebar {
+  width: 250px;
+  height: 60vh; 
+  background-color: white;
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  /* transform: translateX(-100%); Скрываем сайдбар по умолчанию */
+  position: fixed; /* Фиксированное положение, чтобы не двигался при прокрутке */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Чтобы сайдбар был поверх остального контента */
+}
+
+.sidebar.open {
+  transform: translateX(0); /* Показываем сайдбар */
+}
+
+.sidebar.closed {
+  width: 60px;
+}
+
+
+.sidebar.closed .menu-el span {
+display: none;  
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-left: 8vh; 
+  /* background-color: aqua; */
+  margin-right: 8vh; 
+  padding-top: 0px;
+}
+
+.main-content.shifted {
+  margin-left: 290px; 
+ 
+}
+.headerName.shifted{
+  margin-left: 200px; 
+}
+
+.menu-el
+{
+display: flex;
+align-items:center;
+gap: 5px;
+}
+
+.smallScreen
+{
+display: none;
+
+}
+.headerName{
+  font-size: 30px;
+  position: absolute;
+  left: 9vh;
+}
+.mainName{
+  font-size: 30px;
+  display: none;
+  margin-bottom: 20px;
+  margin-top: 0px;
+
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh; 
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 10px 20px; 
+  /* background-color: cadetblue; */
+  position: relative; 
+  margin-right: 8vh;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.sidebarEl
+{
+  padding-left: 7px;
+}
+.sidebarEl.choosed 
+{
+  background-color : #375FFF1A;
+  border-left : 1px solid #007bff;
+}
+.sidebarEl.choosed span
+{
+  color: #007bff;
+}
+.sidebarHref
+{
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+.main-content.shifted::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 1;
+  pointer-events: none; 
+
+}
+}
+
+
+
+@media (max-width:900px) {
+  .sidebar.closed {
+    transform: translateX(-150%); 
+  }
+  .main-content {
+
+    margin-left: 0;
+    margin-right: 0; 
+  }
+  .smallScreen
+  {
+    
+    display: block;
+    margin-left: 1vh;
+  }
+  .header {
+    margin-right: 0;
+    padding: 0px; 
+
+    }
+    .main-content.shifted {
+      margin-left: 0; 
+     
+    }
+  .headerName{
+    display: none;
+  }
+  .mainName{
+    display: inline;
+  }
+}
