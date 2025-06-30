@@ -3,6 +3,7 @@ import { peApi } from "../Api/peApi";
 const LOAD_TEACHERS = "LOAD_TEACHERS";
 const LOAD_LOGO = "LOAD_LOGO"; 
 const LOAD_CURATORS = "LOAD_CURATORS"
+const LOAD_FACULTIES = "LOAD_FACULTIES"
 let initialState = {
     teachers:[],
     curators: [],
@@ -18,6 +19,10 @@ const teachersReducer = (state = initialState, action) => {
         case LOAD_CURATORS:
             newState.curators = action.curators;
             return newState
+        case LOAD_FACULTIES:
+            newState.faculties = action.faculties;
+            return newState
+
         case LOAD_LOGO:
             newState.teachers = newState.teachers.map(teacher => {
                 if (teacher.id === action.teacherId) 
@@ -46,6 +51,12 @@ export function loadCuratorsActionCreator(curators ){
     };
 }
 
+export function loadFacultiesActionCreator(faculties ){
+    return {
+        type: LOAD_FACULTIES,
+        faculties : faculties      
+    };
+}
 
 export function loadLogoActionCreator(teacherId, logoFile) {
     return { type: LOAD_LOGO, teacherId: teacherId, logoFile: logoFile };
@@ -92,5 +103,34 @@ export function loadLogoThunkCreator(teacherId, logoId) {
 
     };
 }
+export function loadFacultiesThunkCreator() {
+    return async (dispatch) => {
+        const faculties = await peApi.getFaculties(); 
+        dispatch(loadFacultiesActionCreator(faculties)); 
 
+    };
+}
+
+
+export function postCuratorThunkCreator(userId, facultyId) {
+    return async (dispatch) => {
+        const res = await peApi.postCurator(userId, facultyId); 
+        if(res === true)
+        {
+            dispatch(loadTeachersThunkCreator()); 
+            dispatch(loadCuratorsThunkCreator()); 
+        }
+    };
+}
+
+export function deleteCuratorThunkCreator(userId, facultyId) {
+    return async (dispatch) => {
+        const res = await peApi.deleteCurator(userId, facultyId); 
+        if(res === true)
+        {
+            dispatch(loadTeachersThunkCreator()); 
+            dispatch(loadCuratorsThunkCreator()); 
+        }
+    };
+}
 export default teachersReducer;

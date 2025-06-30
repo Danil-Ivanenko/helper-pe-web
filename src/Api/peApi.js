@@ -1,7 +1,7 @@
 import axios from 'axios';
 //https://localhost:7131/api/
 //https://1500-57-129-38-230.ngrok-free.app/api/
-const baseURL ='https://1500-57-129-38-230.ngrok-free.app/api/';
+const baseURL ='https://localhost:7131/api/';
 const instance = axios.create({
     baseURL : baseURL
 });
@@ -125,13 +125,197 @@ async function getCurators(){
     });
 }
 
+async function getFaculties(){
+
+    return instance.get('admin/faculties', {
+
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            console.log(response)
+            return response.data; 
+        }
+    })
+    .catch(error => {
+        if (error.response) {
+            return(error.response.data)
+        }
+        else
+        {
+            console.log("Ошибка")
+        }
+    });
+}
+
+
+async function getStudents(){
+
+    return instance.get('curator/students', {
+
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            console.log(response)
+            return response.data; 
+        }
+    })
+    .catch(error => {
+        if (error.response) {
+            return(error.response.data)
+        }
+        else
+        {
+            console.log("Ошибка")
+        }
+    });
+}
+
+async function postCurator(userId , facultyId ){
+    const queryParams = new URLSearchParams({
+        userId: userId,
+        facultyId: facultyId
+    });
+    return instance.post('admin/curator', {userId , facultyId}, {
+        params: queryParams,
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            return true
+        }
+    })
+    .catch(error => {
+        return false
+    });
+}
+
+async function deleteCurator(userId , facultyId ){
+    const queryParams = new URLSearchParams({
+        userId: userId,
+        facultyId: facultyId
+    });
+    return instance.delete('admin/curator', {
+        params: queryParams,
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            return true
+        }
+    })
+    .catch(error => {
+        return false
+    });
+}
+
+async function postSportOrg(studentId  ){
+    return instance.post(`curator/${studentId}`, null, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            return true
+        }
+    })
+    .catch(error => {
+        return false
+    });
+}
+
+
+async function deleteSportOrg(studentId ){
+
+    return instance.delete(`curator/${studentId}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            return true
+        }
+    })
+    .catch(error => {
+        return false
+    });
+}
+
+async function getCuratorFaculties(){
+
+    return instance.get('curator/faculties', {
+
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
+        }
+    })
+    .then(response => {
+        if (response.status === 200) {
+            return response.data; 
+        }
+    })
+    .catch(error => {
+        if (error.response) {
+            return(error.response.data)
+        }
+        else
+        {
+            console.log("Ошибка")
+        }
+    });
+}
+
+
+async function getTable(facultyId){
+
+    return instance.get(`curator/facultyTable/${facultyId}`, {
+        responseType : "blob",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` 
+        }
+    })
+    .then(response => {
+        console.log(response)
+        
+        if (response.status === 200) {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const a = document.createElement('a');
+            a.href = url;
+            a.setAttribute('download', 'peClasses.xlsx');
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
+        }
+    
+    })
+    .catch(error => {
+
+         console.log(error?.response?.data?.error)
+        
+    });
+}
+
+
 async function refreshToken() {
     if (localStorage.getItem('token') == null)
     {
         return null
     }
     try {
-        const response = await instance.post('refresh', {
+        const response = await instance.post('refresh', null, {
             refreshToken: localStorage.getItem('refreshToken'),
         });
 
@@ -186,5 +370,13 @@ export const peApi = {
     logout: logout,
     getFile: getFile,
     getTeachers: getTeachers,
-    getCurators: getCurators
+    getCurators: getCurators,
+    getFaculties: getFaculties,
+    postCurator: postCurator,
+    deleteCurator: deleteCurator,
+    getStudents : getStudents,
+    postSportOrg : postSportOrg,
+    deleteSportOrg: deleteSportOrg,
+    getCuratorFaculties: getCuratorFaculties,
+    getTable : getTable
 }

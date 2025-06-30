@@ -39,6 +39,10 @@ export function authUserThunkCreator(email, password) {
             {
                 window.location.href = "/admin"
             }
+            else if (data.role === "Curator")
+            {
+                window.location.href = "/curator"
+            }
             else
             {
                 dispatch(loginFailureActionCreator("","","Только для преподавателей"));

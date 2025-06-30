@@ -2,8 +2,30 @@ import React from 'react';
 import styles from '../csses/admin.module.css';
 import userLogo from '../icons/User.svg';
 import FacultyButton from './facultyButton';
-
+import { useDispatch } from 'react-redux';
+import  { useState  } from 'react';
+import {postCuratorThunkCreator} from '../reducers/teachers-reducer'
 function TeacherCuratorCard({userState, allFaculties }) {
+    const hasFaculty = (facultyId, faculties) => {
+        if (!faculties) return false; 
+        return faculties.some(f => f.id === facultyId);
+    };
+    const dispatch = useDispatch();
+    const missingFaculties = allFaculties.filter(faculty => !hasFaculty(faculty.id, userState?.faculties));
+    
+    const [selectedFacultyId, setSelectedFacultyId] = useState(null);
+        const handleSelectChange = (event) => {
+        setSelectedFacultyId(event.target.value); 
+    };
+
+    const handleAddButtonClick = () => {
+        if (selectedFacultyId) 
+        {
+            dispatch(postCuratorThunkCreator(userState?.id , selectedFacultyId))
+        }
+
+    };
+
 
     return (
                 <div className='simpleForm' style={{alignItems : "center", gap : "10px"}}>
@@ -16,17 +38,21 @@ function TeacherCuratorCard({userState, allFaculties }) {
                             <p style={{margin : "5px"}} >  {userState.email} </p>
 
  
-                        <select>
-                            <option> Факультет журналистики </option>
-                            <option>Факультет журналистики ghjhgjhgjhgj </option>
-                        </select>
-                        <button className={styles.filterBtn}> Добавить </button>
+                            <select onChange={handleSelectChange}>
+                                <option value='' selected ></option>
+                                {missingFaculties.map(faculty => (
+                                    <option key={faculty.id} value={faculty.id}>
+                                        {faculty.name}
+                                    </option>
+                                ))}
+                            </select>
+                        <button onClick={handleAddButtonClick}  className={styles.filterBtn}> Добавить </button>
                     </div>
                     <div style={{display : "grid" , gap : "5px",  gridTemplateColumns : "repeat(3, auto)" }}> 
                         
                         { Array.isArray(userState?.faculties) ? (
                                     userState?.faculties?.map((faculty, index) => (
-                                        <FacultyButton key={index} faculty={faculty}/>
+                                        <FacultyButton key={index} userId={userState?.id} faculty={faculty}/>
                                     ))
                         ) : ("")}
 

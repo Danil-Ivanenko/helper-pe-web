@@ -5,7 +5,7 @@ import adminstyles from '../csses/admin.module.css'
 import Sidebar from '../components/Sidebar';
 import styles from '../csses/sidebar.css'
 import arrowLogo from '../icons/arrow.svg'
-import {loadTeachersThunkCreator, loadCuratorsThunkCreator} from '../reducers/teachers-reducer'
+import {loadTeachersThunkCreator, loadCuratorsThunkCreator,  loadFacultiesThunkCreator} from '../reducers/teachers-reducer'
 import TeacherCuratorCard from '../components/teacherCuratorCard'
 function AdminUsersPage() {
     
@@ -18,7 +18,8 @@ function AdminUsersPage() {
     
     useEffect(() => {
       dispatch(loadTeachersThunkCreator());
-      dispatch(loadCuratorsThunkCreator())
+      dispatch(loadCuratorsThunkCreator());
+      dispatch(loadFacultiesThunkCreator());
     }, [dispatch]);
     
     const [activeSection, setActiveSection] = useState("teacher");
@@ -44,7 +45,7 @@ function AdminUsersPage() {
       };
 
 
-    // console.log(employeeState)
+    console.log(employeeState)
     return (
 
     <div className="app-container">
@@ -69,7 +70,7 @@ function AdminUsersPage() {
                                 employeeState.teachers.filter(teacher => teacher.role === "Teacher").map((teacher, index) => (
                                 
                                     
-                                    <TeacherCuratorCard userState={teacher} key={index} />
+                                    <TeacherCuratorCard userState={teacher} key={index}  allFaculties={employeeState?.faculties}/>
                                 
                                 
                                 ))
@@ -85,7 +86,7 @@ function AdminUsersPage() {
                                 employeeState.curators.map((curator, index) => (
                                 
                                     
-                                    <TeacherCuratorCard userState={curator} key={index} />
+                                    <TeacherCuratorCard userState={curator} key={index}  allFaculties={employeeState?.faculties}/>
                                 
                                 
                                 ))

@@ -3,10 +3,14 @@ import {createStore, combineReducers, applyMiddleware} from 'redux'
 import {thunk} from 'redux-thunk'
 import authReducer from '../reducers/auth-reducer';
 import teachersReducer from '../reducers/teachers-reducer';
+import studentsReducer from '../reducers/students-reducer'
+import curatorFacultiesReducer from '../reducers/curator-reducer'
 let reducers = combineReducers({
     
     authPage: authReducer,
     teachersReducer: teachersReducer,
+    studentsReducer: studentsReducer,
+    curatorFacultiesReducer: curatorFacultiesReducer
     // profileReducer: profileReducer,
     // sidebarReducer: sidebarReducer,
     // servicesReducer: servicesReducer,
